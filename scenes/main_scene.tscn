@@ -1,0 +1,176 @@
+[gd_scene load_steps=5 format=3 uid="uid://2eabspk6mkpk"]
+
+[ext_resource type="Script" uid="uid://bh51eic3vyd4e" path="res://scripts/ecosystem_manager.gd" id="1_pu3yx"]
+[ext_resource type="Script" uid="uid://cm71rqan8yru" path="res://scripts/ui_manager.gd" id="2_ui_mgr"]
+[ext_resource type="Script" uid="uid://buo5pn8icj3vg" path="res://scripts/population_visualizer.gd" id="3_pop_vis"]
+[ext_resource type="PackedScene" uid="uid://dpobn4ydieo40" path="res://scenes/creature.tscn" id="4_creature"]
+
+[node name="MainScene" type="Node2D"]
+script = ExtResource("1_pu3yx")
+
+[node name="VisualContainer" type="Node2D" parent="."]
+
+[node name="Algae" type="Node2D" parent="VisualContainer"]
+script = ExtResource("3_pop_vis")
+manager_path = NodePath("../..")
+species_name = "algae"
+creature_scene = ExtResource("4_creature")
+density_per_sprite = 10.0
+
+[node name="Daphnia" type="Node2D" parent="VisualContainer"]
+script = ExtResource("3_pop_vis")
+manager_path = NodePath("../..")
+species_name = "daphnia"
+creature_scene = ExtResource("4_creature")
+density_per_sprite = 2.0
+
+[node name="Snail" type="Node2D" parent="VisualContainer"]
+script = ExtResource("3_pop_vis")
+manager_path = NodePath("../..")
+species_name = "snail"
+creature_scene = ExtResource("4_creature")
+density_per_sprite = 3.0
+
+[node name="Hydra" type="Node2D" parent="VisualContainer"]
+script = ExtResource("3_pop_vis")
+manager_path = NodePath("../..")
+species_name = "hydra"
+creature_scene = ExtResource("4_creature")
+density_per_sprite = 1.0
+
+[node name="Bacteria" type="Node2D" parent="VisualContainer"]
+script = ExtResource("3_pop_vis")
+manager_path = NodePath("../..")
+species_name = "bacteria"
+creature_scene = ExtResource("4_creature")
+density_per_sprite = 20.0
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("2_ui_mgr")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 210.0
+offset_bottom = 255.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="OxygenLabel" type="Label" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "Oxygen:"
+
+[node name="OxygenBar" type="ProgressBar" parent="UI/VBoxContainer"]
+layout_mode = 2
+max_value = 2500.0
+value = 2100.0
+
+[node name="CO2Label" type="Label" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "CO2: 400"
+
+[node name="NutrientLabel" type="Label" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "Nutrients: 100"
+
+[node name="SoftDetritusLabel" type="Label" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "Soft Detritus: 50"
+
+[node name="ToxicWasteLabel" type="Label" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "Water Quality: Good"
+
+[node name="ToxicWasteBar" type="ProgressBar" parent="UI/VBoxContainer"]
+layout_mode = 2
+max_value = 500.0
+
+[node name="TimeControls" type="PanelContainer" parent="UI"]
+offset_left = 220.0
+offset_top = 10.0
+offset_right = 520.0
+offset_bottom = 80.0
+
+[node name="TimeControlsVBox" type="VBoxContainer" parent="UI/TimeControls"]
+layout_mode = 2
+
+[node name="TimeLabel" type="Label" parent="UI/TimeControls/TimeControlsVBox"]
+layout_mode = 2
+text = "Time Controls:"
+
+[node name="TimeButtonsHBox" type="HBoxContainer" parent="UI/TimeControls/TimeControlsVBox"]
+layout_mode = 2
+
+[node name="PlayButton" type="Button" parent="UI/TimeControls/TimeControlsVBox/TimeButtonsHBox"]
+layout_mode = 2
+text = "Play"
+
+[node name="PauseButton" type="Button" parent="UI/TimeControls/TimeControlsVBox/TimeButtonsHBox"]
+layout_mode = 2
+text = "Pause"
+
+[node name="Speed2xButton" type="Button" parent="UI/TimeControls/TimeControlsVBox/TimeButtonsHBox"]
+layout_mode = 2
+text = "2x"
+
+[node name="Speed4xButton" type="Button" parent="UI/TimeControls/TimeControlsVBox/TimeButtonsHBox"]
+layout_mode = 2
+text = "4x"
+
+[node name="Speed8xButton" type="Button" parent="UI/TimeControls/TimeControlsVBox/TimeButtonsHBox"]
+layout_mode = 2
+text = "8x"
+
+[node name="SkipButton" type="Button" parent="UI/TimeControls/TimeControlsVBox/TimeButtonsHBox"]
+layout_mode = 2
+text = "Skip"
+
+[node name="EnvironmentControls" type="PanelContainer" parent="UI"]
+offset_left = 530.0
+offset_top = 10.0
+offset_right = 780.0
+offset_bottom = 90.0
+
+[node name="EnvironmentVBox" type="VBoxContainer" parent="UI/EnvironmentControls"]
+layout_mode = 2
+
+[node name="LightLabel" type="Label" parent="UI/EnvironmentControls/EnvironmentVBox"]
+layout_mode = 2
+text = "Light: 1.0x"
+
+[node name="LightSlider" type="HSlider" parent="UI/EnvironmentControls/EnvironmentVBox"]
+layout_mode = 2
+max_value = 2.0
+step = 0.1
+value = 1.0
+
+[node name="TemperatureLabel" type="Label" parent="UI/EnvironmentControls/EnvironmentVBox"]
+layout_mode = 2
+text = "Temp: 25.0°C"
+
+[node name="TemperatureSlider" type="HSlider" parent="UI/EnvironmentControls/EnvironmentVBox"]
+layout_mode = 2
+min_value = 15.0
+max_value = 30.0
+step = 0.5
+value = 25.0
+
+[node name="SetupPanel" type="PanelContainer" parent="UI"]
+offset_left = 790.0
+offset_top = 10.0
+offset_right = 1010.0
+offset_bottom = 400.0
+
+[node name="SetupVBox" type="VBoxContainer" parent="UI/SetupPanel"]
+layout_mode = 2
+
+[node name="SetupLabel" type="Label" parent="UI/SetupPanel/SetupVBox"]
+layout_mode = 2
+text = "Setup Phase - Add Organisms"
+
+[node name="OrganismButtons" type="VBoxContainer" parent="UI/SetupPanel/SetupVBox"]
+layout_mode = 2
+
+[node name="SealButton" type="Button" parent="UI/SetupPanel/SetupVBox"]
+layout_mode = 2
+text = "Seal Jar"
