@@ -45,6 +45,30 @@ species_name = "bacteria"
 creature_scene = ExtResource("4_creature")
 density_per_sprite = 20.0
 
+[node name="Bloodworms" type="Node2D" parent="VisualContainer"]
+script = ExtResource("3_pop_vis")
+manager_path = NodePath("../..")
+species_name = "bloodworms"
+creature_scene = ExtResource("4_creature")
+
+[node name="Planarian" type="Node2D" parent="VisualContainer"]
+script = ExtResource("3_pop_vis")
+manager_path = NodePath("../..")
+species_name = "planarian"
+creature_scene = ExtResource("4_creature")
+
+[node name="Cyclops" type="Node2D" parent="VisualContainer"]
+script = ExtResource("3_pop_vis")
+manager_path = NodePath("../..")
+species_name = "cyclops"
+creature_scene = ExtResource("4_creature")
+
+[node name="Volvox" type="Node2D" parent="VisualContainer"]
+script = ExtResource("3_pop_vis")
+manager_path = NodePath("../..")
+species_name = "volvox"
+creature_scene = ExtResource("4_creature")
+
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource("2_ui_mgr")
 

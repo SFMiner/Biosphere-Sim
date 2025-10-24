@@ -19,22 +19,26 @@ extends Node2D
 @export var creature_scene: PackedScene  # Scene to spawn for each creature unit
 @export var density_per_sprite: float = 5.0  # How much biomass per visible creature
 
+
 ## Container bounds for positioning creatures
 @export var container_width: float = 1024.0
 @export var container_height: float = 768.0
+
+
 
 ## --- INTERNAL REFERENCES ---
 var manager: Node = null
 var random: RandomNumberGenerator = RandomNumberGenerator.new()
 
-
 ## --- LIFECYCLE ---
 
 func _ready() -> void:
-	# Get reference to the EcosystemManager
+	_init()
+	
+	
+func _init():
 	if manager_path:
 		manager = get_node(manager_path)
-
 	random.randomize()
 
 
@@ -78,5 +82,5 @@ func _spawn_creature() -> void:
 	var random_x = random.randf_range(0.0, container_width)
 	var random_y = random.randf_range(0.0, container_height)
 	creature.position = Vector2(random_x, random_y)
-
+	print ("adding " + species_name + " at (" + str(random_x) + ",' " + str(random_y) + ")")
 	add_child(creature)

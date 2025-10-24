@@ -60,13 +60,15 @@ var current_time_scale: float = 1.0
 const CREATURE_COLORS = {
 	"algae": Color(0.2, 0.8, 0.3, 1.0),      # Green
 	"volvox": Color(0.078, 0.545, 0.235, 1.0),      # Dark Green
+	"elodea": Color(0.136, 0.358, 0.227, 1.0),     # Medium Green (plant)
 	"daphnia": Color(0.7, 0.5, 0.2, 1.0),    # Brown/tan
 	"snail": Color(0.6, 0.6, 0.4, 1.0),      # Brownish gray
+	"planarian": Color(0.897, 0.0, 0.856, 1.0),      # Brownish gray
 	"hydra": Color(0.4, 0.2, 0.6, 1.0),      # Purple/brown
 	"bacteria": Color(0.9, 0.9, 0.3, 1.0),    # Yellow
-	"blackworms": Color(0.536, 0.151, 0.266, 1.0)    # Dark Red
+	"blackworms": Color(0.536, 0.151, 0.266, 1.0),    # Dark Red
+	"cyclops": Color(0.8, 0.4, 0.3, 1.0)
 }
-
 
 ## --- LIFECYCLE ---
 
@@ -200,7 +202,7 @@ func _create_organism_buttons() -> void:
 		child.queue_free()
 
 	# Create buttons for each species
-	var species_list = ["algae", "volvox", "daphnia", "snail", "hydra", "bacteria", "blackworms"]
+	var species_list = ["algae", "volvox", "elodea", "daphnia", "snail", "planarian", "hydra", "bacteria", "blackworms", "cyclops"]
 
 	for species in species_list:
 		var hbox = HBoxContainer.new()
