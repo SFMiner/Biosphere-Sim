@@ -44,7 +44,7 @@ var pop_visualizer: Script = preload("res://scripts/population_visualizer.gd")  
 	"elodea": 50.0,
 	"daphnia": 20.0,
 	"snail": 5.0,
-	"planarian": 15.0,
+	"planarian": 25.0,
 	"hydra": 5.0,
 	"blackworms": 5.0,
 	"bacteria": 200.0,  # v3 FIX: Increased from 50.0 (4x more bacteria)
@@ -152,7 +152,7 @@ var pop_visualizer: Script = preload("res://scripts/population_visualizer.gd")  
 	"hydra": {
 		"daphnia": 0.0008,
 		"cyclops": 0.0006,
-		"planarian": 0.002,  # v3 FIX: Increased from 0.0004 (5x increase!)
+		"planarian": 0.0007,  # v3 FIX: Increased from 0.0004 (5x increase!)
 	},
 	"cyclops": {
 		"daphnia": 0.0004,
@@ -284,7 +284,7 @@ func advance_simulation(step_delta: float) -> void:
 		var detox_rate = min(bacteria_biomass * 0.025 * step_delta, toxic_waste * 0.2)
 		toxic_waste_delta -= detox_rate
 		nutrient_delta += detox_rate * 0.9
-		population_deltas["bacteria"] += detox_rate * 0.2  # v3 FIX: Increased from 0.05 (4x growth!)
+		population_deltas["bacteria"] += detox_rate * 0.25  # v3 FIX: Increased from 0.05 (4x growth!)
 
 	# 4. Hard Detritus Decay
 	#    A very slow, passive process where hard_detritus breaks down
