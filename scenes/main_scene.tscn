@@ -109,6 +109,59 @@ text = "Water Quality: Good"
 layout_mode = 2
 max_value = 500.0
 
+[node name="PopulationPanel" type="PanelContainer" parent="UI"]
+offset_left = 10.0
+offset_top = 270.0
+offset_right = 210.0
+offset_bottom = 520.0
+
+[node name="PopulationVBox" type="VBoxContainer" parent="UI/PopulationPanel"]
+layout_mode = 2
+
+[node name="PopulationTitle" type="Label" parent="UI/PopulationPanel/PopulationVBox"]
+layout_mode = 2
+text = "--- Populations ---"
+
+[node name="AlgaeLabel" type="Label" parent="UI/PopulationPanel/PopulationVBox"]
+layout_mode = 2
+text = "Algae: 0"
+
+[node name="VolvoxLabel" type="Label" parent="UI/PopulationPanel/PopulationVBox"]
+layout_mode = 2
+text = "Volvox: 0"
+
+[node name="ElodeaLabel" type="Label" parent="UI/PopulationPanel/PopulationVBox"]
+layout_mode = 2
+text = "Elodea: 0"
+
+[node name="DaphniaLabel" type="Label" parent="UI/PopulationPanel/PopulationVBox"]
+layout_mode = 2
+text = "Daphnia: 0"
+
+[node name="SnailLabel" type="Label" parent="UI/PopulationPanel/PopulationVBox"]
+layout_mode = 2
+text = "Snail: 0"
+
+[node name="PlanarianLabel" type="Label" parent="UI/PopulationPanel/PopulationVBox"]
+layout_mode = 2
+text = "Planarian: 0"
+
+[node name="HydraLabel" type="Label" parent="UI/PopulationPanel/PopulationVBox"]
+layout_mode = 2
+text = "Hydra: 0"
+
+[node name="BacteriaLabel" type="Label" parent="UI/PopulationPanel/PopulationVBox"]
+layout_mode = 2
+text = "Bacteria: 0"
+
+[node name="BlackwormsLabel" type="Label" parent="UI/PopulationPanel/PopulationVBox"]
+layout_mode = 2
+text = "Blackworms: 0"
+
+[node name="CyclopsLabel" type="Label" parent="UI/PopulationPanel/PopulationVBox"]
+layout_mode = 2
+text = "Cyclops: 0"
+
 [node name="TimeControls" type="PanelContainer" parent="UI"]
 offset_left = 220.0
 offset_top = 10.0

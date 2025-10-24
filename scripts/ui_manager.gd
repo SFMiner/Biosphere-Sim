@@ -44,6 +44,9 @@ var setup_panel: PanelContainer
 var organism_buttons: VBoxContainer
 var seal_button: Button
 
+## Population tracking UI references
+var population_labels: Dictionary = {}
+
 ## --- MANAGER REFERENCE ---
 var manager: Node = null
 
@@ -88,6 +91,7 @@ func _ready() -> void:
 
 	# Initialize UI
 	_initialize_ui_ranges()
+	_initialize_population_labels()
 	_connect_signals()
 	_update_phase_visibility()
 
@@ -117,6 +121,20 @@ func _initialize_ui_ranges() -> void:
 		temp_slider.max_value = 30.0
 		temp_slider.step = 0.5
 		temp_slider.value = manager.temperature
+
+
+func _initialize_population_labels() -> void:
+	"""Initialize references to population label UI elements."""
+	var species_list = ["algae", "volvox", "elodea", "daphnia", "snail", "planarian", "hydra", "bacteria", "blackworms", "cyclops"]
+	
+	for species in species_list:
+		var label_name = species.capitalize() + "Label"
+		var label = _find_node_optional(label_name)
+		if label:
+			population_labels[species] = label
+			print("UIManager: Found population label for %s" % species)
+		else:
+			print("UIManager: Could not find population label for %s" % species)
 
 
 func _find_node_optional(node_name: String) -> Node:
@@ -258,6 +276,9 @@ func _update_setup_display() -> void:
 		oxygen_label.text = "Oxygen: %.0f" % manager.oxygen
 	if is_instance_valid(nutrient_label):
 		nutrient_label.text = "Nutrients: %.0f" % manager.nutrient_pool
+	
+	# Update population displays in setup phase
+	_update_population_displays()
 
 
 func _update_simulation_display() -> void:
@@ -265,6 +286,7 @@ func _update_simulation_display() -> void:
 	_update_resource_displays()
 	_update_toxicity_indicator()
 	_update_environment_labels()
+	_update_population_displays()
 
 
 ## --- RESOURCE DISPLAY UPDATE ---
@@ -287,6 +309,21 @@ func _update_resource_displays() -> void:
 	# Soft Detritus - Secondary indicator
 	if is_instance_valid(soft_detritus_label):
 		soft_detritus_label.text = "Soft Detritus: %.0f" % manager.soft_detritus
+
+
+## --- POPULATION DISPLAY UPDATE ---
+
+func _update_population_displays() -> void:
+	"""Update all population labels with current biomass values."""
+	for species in population_labels.keys():
+		var label = population_labels[species]
+		if is_instance_valid(label):
+			var biomass = manager.populations.get(species, 0.0)
+			label.text = "%s: %.1f" % [species.capitalize(), biomass]
+			
+			# Apply color coding to the label
+			var color = CREATURE_COLORS.get(species, Color.WHITE)
+			label.add_theme_color_override("font_color", color)
 
 
 ## --- TOXICITY INDICATOR ---
@@ -488,7 +525,7 @@ func _print_scene_structure() -> void:
 	print("UI CanvasLayer children:")
 	for child in get_children():
 		print("  - %s (%s)" % [child.name, child.get_class()])
-		if child.name == "SetupPanel":
+		if child.name == "SetupPanel" or child.name == "PopulationPanel":
 			_print_children_recursive(child, "    ")
 
 func _print_children_recursive(node: Node, indent: String) -> void:
