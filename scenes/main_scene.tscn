@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://2eabspk6mkpk"]
+[gd_scene load_steps=6 format=3 uid="uid://2eabspk6mkpk"]
 
 [ext_resource type="Script" uid="uid://bh51eic3vyd4e" path="res://scripts/ecosystem_manager.gd" id="1_pu3yx"]
 [ext_resource type="Script" uid="uid://cm71rqan8yru" path="res://scripts/ui_manager.gd" id="2_ui_mgr"]
 [ext_resource type="Script" uid="uid://buo5pn8icj3vg" path="res://scripts/population_visualizer.gd" id="3_pop_vis"]
 [ext_resource type="PackedScene" uid="uid://dpobn4ydieo40" path="res://scenes/creature.tscn" id="4_creature"]
+[ext_resource type="Script" uid="uid://dkjk82f4512p2" path="res://scripts/population_graph.gd" id="5_gubc5"]
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource("1_pu3yx")
@@ -251,3 +252,15 @@ layout_mode = 2
 [node name="SealButton" type="Button" parent="UI/SetupPanel/SetupVBox"]
 layout_mode = 2
 text = "Seal Jar"
+
+[node name="PopulationGraph" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 226.0
+offset_top = 268.0
+offset_right = 420.0
+offset_bottom = 560.0
+script = ExtResource("5_gubc5")
+manager_path = NodePath("../..")
+graph_height = 300.0
+tracked_species = Array[String](["algae", "daphnia", "snail", "hydra", "bacteria", "blackworms", "planarian", "cyclops", "volvox"])
