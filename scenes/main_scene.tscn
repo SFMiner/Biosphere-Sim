@@ -113,6 +113,10 @@ text = "Water Quality: Good"
 layout_mode = 2
 max_value = 500.0
 
+[node name="ResetButton" type="Button" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "RESET JAR"
+
 [node name="PopulationPanel" type="PanelContainer" parent="UI"]
 offset_left = 10.0
 offset_top = 270.0
@@ -272,4 +276,3 @@ offset_bottom = 560.0
 script = ExtResource("5_gubc5")
 manager_path = NodePath("../..")
 graph_height = 300.0
-tracked_species = Array[String](["algae", "volvox", "elodea", "daphnia", "cyclops", "snail", "hydra", "planarian", "bacteria", "blackworms"])

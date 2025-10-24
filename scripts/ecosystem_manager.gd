@@ -33,18 +33,20 @@ extends Node
 @export var toxic_waste: float = 0.0
 var pop_visualizer: Script = preload("res://scripts/population_visualizer.gd")  # Scene to spawn for each creature unit
 @onready var visual_container: Node2D = $VisualContainer  # How much biomass per visible 
+@onready var reset_button: Button = $UI/VBoxContainer/ResetButton# How much biomass per visible 
 
 ## --- SPECIES DATA (GDD 3.2) ---
 ## All species data is stored in flexible Dictionaries for easy modification and expansion
 
 @export var populations: Dictionary = {
 	"algae": 100.0,
-	"volvox": 0.0,
+	"volvox": 50.0,
 	"elodea": 50.0,
 	"daphnia": 20.0,
-	"snail": 10.0,
-	"planarian": 5.0,
+	"snail": 5.0,
+	"planarian": 15.0,
 	"hydra": 5.0,
+	"blackworms": 5.0,
 	"bacteria": 200.0,  # v3 FIX: Increased from 50.0 (4x more bacteria)
 	"cyclops": 15.0
 }
@@ -198,7 +200,8 @@ var print_interval: int = 10  # Print every N frames
 ## Uses fixed timestep for numerical stability
 ## Only runs during simulation phase and when not paused
 
-#func _ready():
+func _ready():
+	add_to_group("main")
 #	for species in populations.keys():
 #		var new_node2d : Node2D = Node2D.new()
 #		new_node2d.name = species.capitalize()
@@ -524,6 +527,7 @@ func reset_jar() -> void:
 	# Reset simulation state
 	simulation_time = 0.0
 	frame_count = 0
+	$UI.setup_panel.visible = true 
 
 	print("Jar reset to empty state")
 

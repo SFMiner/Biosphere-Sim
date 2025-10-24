@@ -32,6 +32,7 @@ var speed_2x_button: Button
 var speed_4x_button: Button
 var speed_8x_button: Button
 var skip_button: Button
+var reset_button: Button
 
 ## Environment control references (will be optional if not in scene)
 var light_slider: HSlider
@@ -153,6 +154,7 @@ func _connect_signals() -> void:
 	speed_4x_button = _find_node_optional("Speed4xButton")
 	speed_8x_button = _find_node_optional("Speed8xButton")
 	skip_button = _find_node_optional("SkipButton")
+	reset_button = _find_node_optional("ResetButton")
 
 	time_display_label = _find_node_optional("TimeDisplayLabel")
 	if time_display_label:
@@ -176,6 +178,9 @@ func _connect_signals() -> void:
 	if skip_button:
 		skip_button.pressed.connect(_on_skip_pressed)
 		skip_button.process_mode = PROCESS_MODE_ALWAYS
+	if reset_button:
+		reset_button.pressed.connect(_on_reset_pressed)
+		reset_button.process_mode = PROCESS_MODE_ALWAYS
 
 	# Connect environment controls
 	light_slider = _find_node_optional("LightSlider") if not light_slider else light_slider
@@ -306,7 +311,7 @@ func _update_simulation_display() -> void:
 	_update_toxicity_indicator()
 	_update_environment_labels()
 	_update_population_displays()
-
+	_update_time_display()
 
 ## --- RESOURCE DISPLAY UPDATE ---
 
@@ -426,6 +431,12 @@ func _on_skip_pressed() -> void:
 	print("Skip ahead - simulating 1 week of gameplay")
 	_skip_ahead_async(3600.0)  # Skip 1 hour (60 minutes * 60 seconds)
 
+func _on_reset_pressed() -> void:
+	"""Reset the jar."""
+	print("Resettingthe jar")
+	var main = get_tree().get_nodes_in_group("main")[0]
+	main.reset_jar()  # Reset the jar
+	
 
 func _skip_ahead_async(duration: float) -> void:
 	"""Simulate ahead in time without rendering."""
@@ -459,6 +470,7 @@ func _on_temperature_changed(value: float) -> void:
 
 func _on_seal_pressed() -> void:
 	"""Seal the jar and enter simulation phase."""
+	setup_panel.visible = false
 	if GameState.is_setup_phase():
 		manager.seal_jar()
 		_update_phase_visibility()
