@@ -26,16 +26,15 @@ extends Control
 ## Add/remove species names to customize what gets graphed
 @export var tracked_species: Array[String] = [
 	"algae",
-	"daphnia",
-	"snail",
-	"hydra",
-	"bacteria",
 	"volvox",
 	"elodea",
-	"planarian",
+	"daphnia",
+	"cyclops",
+	"snail",
 	"hydra",
-	"blackworms",
-	"cyclops"
+	"planarian",
+	"bacteria",
+	"blackworms"
 ]
 
 ## --- SPECIES COLORS (matches Creature.gd) ---
@@ -44,12 +43,12 @@ const SPECIES_COLORS = {
 	"volvox": Color(0.078, 0.545, 0.235, 1.0),
 	"elodea": Color(0.136, 0.358, 0.227, 1.0),
 	"daphnia": Color(0.7, 0.5, 0.2, 1.0),
+	"cyclops": Color(0.8, 0.4, 0.3, 1.0),
 	"snail": Color(0.6, 0.6, 0.4, 1.0),
 	"planarian": Color(0.897, 0.0, 0.856, 1.0),
 	"hydra": Color(0.4, 0.2, 0.6, 1.0),
 	"bacteria": Color(0.9, 0.9, 0.3, 1.0),
-	"blackworms": Color(0.536, 0.151, 0.266, 1.0),
-	"cyclops": Color(0.8, 0.4, 0.3, 1.0)
+	"blackworms": Color(0.536, 0.151, 0.266, 1.0)
 }
 
 ## --- INTERNAL STATE ---

@@ -18,12 +18,27 @@ species_name = "algae"
 creature_scene = ExtResource("4_creature")
 density_per_sprite = 10.0
 
+[node name="Volvox" type="Node2D" parent="VisualContainer"]
+script = ExtResource("3_pop_vis")
+manager_path = NodePath("../..")
+species_name = "volvox"
+creature_scene = ExtResource("4_creature")
+
+[node name="Elodea" type="Node2D" parent="VisualContainer"]
+script = ExtResource("3_pop_vis")
+
 [node name="Daphnia" type="Node2D" parent="VisualContainer"]
 script = ExtResource("3_pop_vis")
 manager_path = NodePath("../..")
 species_name = "daphnia"
 creature_scene = ExtResource("4_creature")
 density_per_sprite = 2.0
+
+[node name="Cyclops" type="Node2D" parent="VisualContainer"]
+script = ExtResource("3_pop_vis")
+manager_path = NodePath("../..")
+species_name = "cyclops"
+creature_scene = ExtResource("4_creature")
 
 [node name="Snail" type="Node2D" parent="VisualContainer"]
 script = ExtResource("3_pop_vis")
@@ -39,6 +54,12 @@ species_name = "hydra"
 creature_scene = ExtResource("4_creature")
 density_per_sprite = 1.0
 
+[node name="Planarian" type="Node2D" parent="VisualContainer"]
+script = ExtResource("3_pop_vis")
+manager_path = NodePath("../..")
+species_name = "planarian"
+creature_scene = ExtResource("4_creature")
+
 [node name="Bacteria" type="Node2D" parent="VisualContainer"]
 script = ExtResource("3_pop_vis")
 manager_path = NodePath("../..")
@@ -46,28 +67,10 @@ species_name = "bacteria"
 creature_scene = ExtResource("4_creature")
 density_per_sprite = 20.0
 
-[node name="Bloodworms" type="Node2D" parent="VisualContainer"]
+[node name="Blackworms" type="Node2D" parent="VisualContainer"]
 script = ExtResource("3_pop_vis")
 manager_path = NodePath("../..")
-species_name = "bloodworms"
-creature_scene = ExtResource("4_creature")
-
-[node name="Planarian" type="Node2D" parent="VisualContainer"]
-script = ExtResource("3_pop_vis")
-manager_path = NodePath("../..")
-species_name = "planarian"
-creature_scene = ExtResource("4_creature")
-
-[node name="Cyclops" type="Node2D" parent="VisualContainer"]
-script = ExtResource("3_pop_vis")
-manager_path = NodePath("../..")
-species_name = "cyclops"
-creature_scene = ExtResource("4_creature")
-
-[node name="Volvox" type="Node2D" parent="VisualContainer"]
-script = ExtResource("3_pop_vis")
-manager_path = NodePath("../..")
-species_name = "volvox"
+species_name = "blackworms"
 creature_scene = ExtResource("4_creature")
 
 [node name="UI" type="CanvasLayer" parent="."]
@@ -203,6 +206,12 @@ text = "8x"
 layout_mode = 2
 text = "Skip"
 
+[node name="TimeDisplayLabel" type="Label" parent="UI/TimeControls/TimeControlsVBox"]
+layout_direction = 2
+layout_mode = 2
+text = "Elapsed: 00:00:00 (0.0 days)"
+horizontal_alignment = 1
+
 [node name="EnvironmentControls" type="PanelContainer" parent="UI"]
 offset_left = 530.0
 offset_top = 10.0
@@ -263,4 +272,4 @@ offset_bottom = 560.0
 script = ExtResource("5_gubc5")
 manager_path = NodePath("../..")
 graph_height = 300.0
-tracked_species = Array[String](["algae", "daphnia", "snail", "hydra", "bacteria", "blackworms", "planarian", "cyclops", "volvox"])
+tracked_species = Array[String](["algae", "volvox", "elodea", "daphnia", "cyclops", "snail", "hydra", "planarian", "bacteria", "blackworms"])

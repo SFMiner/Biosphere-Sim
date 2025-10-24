@@ -3,15 +3,11 @@
 ## The core simulation engine for Biosphere Jar.
 ## This script manages all resource pools, species populations, and the simulation logic.
 ##
-## BALANCE FIXES (v2):
+## BALANCE FIXES (v3):
+## - BACTERIA SALVATION: Increased growth, population, reduced death & consumption
+## - PLANARIAN CONTROL: Increased hydra predation, added cyclops predation, reduced growth
+## - PLANT STABILITY: Increased oxygen production, reduced snail grazing, reduced death rates
 ## - All rates now consistently use step_delta (time-based, not frame-based)
-## - Bacteria waste production reduced to prevent toxic waste explosion
-## - Predation rates reduced to allow prey populations to stabilize
-## - Decomposition rates adjusted to balance nitrogen cycle
-##
-## TIME TRACKING (v3):
-## - Added proper elapsed time tracking that respects Engine.time_scale
-## - Time pauses when time_scale = 0, speeds up with 2x/4x/8x
 ##
 ## Principles:
 ## - Simulation First: All core logic is decoupled from rendering and uses fixed timestep
@@ -48,7 +44,8 @@ var pop_visualizer: Script = preload("res://scripts/population_visualizer.gd")  
 	"bacteria": 200.0,  # v3 FIX: Increased from 50.0 (4x more bacteria)
 	"cyclops": 15.0
 }
-## BALANCE FIX: Reduced waste production rates significantly
+
+## BALANCE FIX v3: Reduced waste production, increased bacteria survivability
 @export var species_params: Dictionary = {
 	"snail": {
 		"unit_biomass": 15.0,
@@ -143,9 +140,7 @@ var pop_visualizer: Script = preload("res://scripts/population_visualizer.gd")  
 	}
 }
 
-
-## BALANCE FIX: Reduced predation rates to prevent instant prey collapse
-## Added bacteria as food source for filter feeders and detritivores
+## BALANCE FIX v3: Increased hydra → planarian, added cyclops → planarian, reduced bacteria consumption
 @export var food_web: Dictionary = {
 	"hydra": {
 		"daphnia": 0.0008,
@@ -179,7 +174,6 @@ var pop_visualizer: Script = preload("res://scripts/population_visualizer.gd")  
 	},
 }
 
-
 ## --- EXTERNAL FACTORS ---
 ## These factors represent environmental conditions that affect the simulation
 
@@ -189,7 +183,7 @@ var pop_visualizer: Script = preload("res://scripts/population_visualizer.gd")  
 
 
 ## --- SIMULATION STATE ---
-var simulation_time: float = 0.0  # Total elapsed simulation time in seconds
+var simulation_time: float = 0.0
 var frame_count: int = 0
 var print_interval: int = 10  # Print every N frames
 
@@ -197,14 +191,6 @@ var print_interval: int = 10  # Print every N frames
 ## --- PHYSICS PROCESS ---
 ## Uses fixed timestep for numerical stability
 ## Only runs during simulation phase and when not paused
-
-#func _ready():
-#	for species in populations.keys():
-#		var new_node2d : Node2D = Node2D.new()
-#		new_node2d.name = species.capitalize()
-#		visual_container.add_child(new_node2d)
-#	for child in visual_container.get_children():
-#		child.set_script(pop_visualizer)
 
 func _physics_process(delta: float) -> void:
 	# Only advance simulation during simulation phase and when not paused
@@ -229,10 +215,7 @@ func advance_simulation(step_delta: float) -> void:
 		population_deltas[species] = 0.0
 
 	# 2. Producers (Photosynthesis)
-	#    Algae, volvox, and elodea consume CO2 and nutrient_pool to grow
-	#    Growth is limited by the least available resource (light, CO2, or nutrients)
-	#    Production of oxygen occurs here
-	#    BALANCE FIX: Now properly scaled by step_delta for consistent time-based behavior
+	#    v3 FIX: Increased oxygen production for stability
 
 	# Algae production
 	var algae_biomass = populations.get("algae", 0.0)
@@ -264,7 +247,7 @@ func advance_simulation(step_delta: float) -> void:
 			oxygen_delta += producer_rate * 1.5  # v3 FIX: Increased from 0.9 (67% more oxygen!)
 			population_deltas["elodea"] += producer_rate * 0.05
 
-		# 3. Decomposers (Recycling)
+	# 3. Decomposers (Recycling)
 	#    v3 FIX: Dramatically increased bacteria growth from decomposition work
 
 	var bacteria_biomass = populations.get("bacteria", 0.0)
@@ -417,26 +400,10 @@ func advance_simulation(step_delta: float) -> void:
 		_print_status()
 
 
-## --- HELPER FUNCTIONS ---
-
-func get_elapsed_time_formatted() -> String:
-	"""Returns simulation time formatted as HH:MM:SS"""
-	var total_seconds = int(simulation_time)
-	var hours = total_seconds / 3600
-	var minutes = (total_seconds % 3600) / 60
-	var seconds = total_seconds % 60
-	return "%02d:%02d:%02d" % [hours, minutes, seconds]
-
-
-func get_elapsed_days() -> float:
-	"""Returns simulation time in days (useful for long-term tracking)"""
-	return simulation_time / 86400.0  # 86400 seconds in a day
-
-
 ## --- DEBUG OUTPUT ---
 
 func _print_status() -> void:
-	print("\n=== Simulation Frame %d (Time: %s) ===" % [frame_count, get_elapsed_time_formatted()])
+	print("\n=== Simulation Frame %d (Time: %.2fs) ===" % [frame_count, simulation_time])
 	print("--- Resources ---")
 	print("  Oxygen: %.2f | CO2: %.2f | Nutrients: %.2f" % [oxygen, co2, nutrient_pool])
 	print("  Soft Detritus: %.2f | Hard Detritus: %.2f | Toxic Waste: %.2f" % [soft_detritus, hard_detritus, toxic_waste])

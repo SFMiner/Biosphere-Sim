@@ -38,6 +38,7 @@ var light_slider: HSlider
 var light_label: Label
 var temp_slider: HSlider
 var temp_label: Label
+var time_display_label: Label
 
 ## Setup phase UI references (will be optional if not in scene)
 var setup_panel: PanelContainer
@@ -153,6 +154,10 @@ func _connect_signals() -> void:
 	speed_8x_button = _find_node_optional("Speed8xButton")
 	skip_button = _find_node_optional("SkipButton")
 
+	time_display_label = _find_node_optional("TimeDisplayLabel")
+	if time_display_label:
+		print("UIManager: Found TimeDisplayLabel")
+
 	if play_button:
 		play_button.pressed.connect(_on_play_pressed)
 		play_button.process_mode = PROCESS_MODE_ALWAYS
@@ -219,6 +224,8 @@ func _create_organism_buttons() -> void:
 	for child in organism_buttons.get_children():
 		child.queue_free()
 
+	_update_time_display()
+
 	# Create buttons for each species
 	var species_list = ["algae", "volvox", "elodea", "daphnia", "snail", "planarian", "hydra", "bacteria", "blackworms", "cyclops"]
 
@@ -269,6 +276,18 @@ func _process(delta: float) -> void:
 	else:
 		_update_simulation_display()
 
+
+func _update_time_display() -> void:
+	"""Update the elapsed time display."""
+	if not is_instance_valid(time_display_label) or not is_instance_valid(manager):
+		return
+	
+	# Get formatted time from manager
+	var time_str = manager.get_elapsed_time_formatted()
+	var days = manager.get_elapsed_days()
+	
+	# Display format: "Elapsed: HH:MM:SS (X.X days)"
+	time_display_label.text = "Elapsed: %s (%.1f days)" % [time_str, days]
 
 func _update_setup_display() -> void:
 	"""Update UI during setup phase."""
